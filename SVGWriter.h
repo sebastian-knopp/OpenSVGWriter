@@ -65,8 +65,11 @@ public:
     //! Draws a line using the given coordinates
     void drawLine(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex = 0);
 
-    //! Draws a rectangle using the given coordinates
-    void drawRectangle(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex = 0);
+    /**
+     * @brief Draws a rectangle using the given coordinates
+     * @param a_borderWidth Width of border, filled rectangle if zero.
+     */
+    void drawRectangle(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex = 0, int a_borderWidth = 0);
 
     void drawText(double a_fromX, double a_fromY, const std::string& a_text, int a_fontSize = 12);
 

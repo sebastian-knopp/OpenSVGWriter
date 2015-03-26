@@ -78,12 +78,19 @@ SVGWriter::~SVGWriter()
                   << "y=\"" << getScaledYValue(command.m_fromCoord.m_y) << "\" "
                   << "width=\"" << getScaledValue(command.m_toCoord.m_x - command.m_fromCoord.m_x) << "\" "
                   << "height=\"" << getScaledValue(command.m_toCoord.m_y - command.m_fromCoord.m_y) << "\" "
-                  << " style=\"fill:" << getColorString(command.m_color) << "; stroke-width:1\" />\n";
+                  << "style=\"";
+
+            if (command.m_size == 0)
+                m_ofs << " fill:" << getColorString(command.m_color);
+            else
+                m_ofs << " stroke:" << getColorString(command.m_color) << ";"
+                      << " stroke-width:" << command.m_size << ";fill-opacity:0.0\" ";
+
+            m_ofs << "\" />\n";
             break;
         }
     }
 
-    //<rect width="300" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
     m_ofs << "</svg>\n"
           << "</body>\n"
           << "</html>\n";
@@ -111,7 +118,7 @@ void SVGWriter::drawLine(double a_fromX, double a_fromY, double a_toX, double a_
 }
 
 
-void SVGWriter::drawRectangle(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex)
+void SVGWriter::drawRectangle(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex, int a_borderWidth)
 {
     std::tie(a_fromX, a_toX) = std::make_tuple(std::min(a_fromX, a_toX), std::max(a_fromX, a_toX));
     std::tie(a_fromY, a_toY) = std::make_tuple(std::min(a_fromY, a_toY), std::max(a_fromY, a_toY));
@@ -122,7 +129,7 @@ void SVGWriter::drawRectangle(double a_fromX, double a_fromY, double a_toX, doub
     const Coordinate to { a_toX, a_toY };
     updateMinMax(to);
 
-    m_commands.push_back(DrawCommand { CommandType::Rectangle, from, to, a_colorIndex, 0, "" });
+    m_commands.push_back(DrawCommand { CommandType::Rectangle, from, to, a_colorIndex, a_borderWidth, "" });
 }
 
 
