@@ -39,13 +39,15 @@ SVGWriter::~SVGWriter()
 
     for (const DrawCommand& command : m_commands)
     {
+        m_ofs << "  ";
+
         switch (command.m_type)
         {
             case CommandType::Circle:
                 m_ofs << "<circle "
                       << "cx=\"" << (getScaledXValue(command.m_fromCoord.m_x)) << "\" "
                       << "cy=\"" << (getScaledYValue(command.m_fromCoord.m_y)) << "\" "
-                      << "r=\"" << command.m_radius << "\" stroke=\"black\" stroke-width=\"0\""
+                      << "r=\"" << command.m_size << "\" stroke=\"black\" stroke-width=\"0\" "
                       << "fill=\"" << getColorString(command.m_color) << "\" />\n";
                 break;
         case CommandType::Line:
@@ -60,7 +62,8 @@ SVGWriter::~SVGWriter()
             m_ofs << "<text "
                   << "x=\"" << getScaledXValue(command.m_fromCoord.m_x) << "\" "
                   << "y=\"" << getScaledYValue(command.m_fromCoord.m_y) << "\" "
-                  << "font-size=\"10\">" << command.m_text << "</text>\n";
+                  << "font-size=\"" << command.m_size << "\" "
+                  << "font-family=\"arial\">" << command.m_text << "</text>\n";
             break;
         }
     }
@@ -71,16 +74,16 @@ SVGWriter::~SVGWriter()
 }
 
 
-void SVGWriter::drawCircle(double a_x, double a_y, int a_color, int a_radius)
+void SVGWriter::drawCircle(double a_x, double a_y, int a_colorIndex, int a_diameter)
 {
     const Coordinate c {  a_x, a_y };
     updateMinMax(c);
 
-    m_commands.push_back(DrawCommand { CommandType::Circle, c, c, a_color, a_radius, "" });
+    m_commands.push_back(DrawCommand { CommandType::Circle, c, c, a_colorIndex, a_diameter, "" });
 }
 
 
-void SVGWriter::drawLine(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_color)
+void SVGWriter::drawLine(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex)
 {
     const Coordinate from {  a_fromX, a_fromY };
     updateMinMax(from);
@@ -88,21 +91,22 @@ void SVGWriter::drawLine(double a_fromX, double a_fromY, double a_toX, double a_
     const Coordinate to {  a_toX, a_toY };
     updateMinMax(to);
 
-    m_commands.push_back(DrawCommand { CommandType::Line, from, to, a_color, 0, "" });
+    m_commands.push_back(DrawCommand { CommandType::Line, from, to, a_colorIndex, 0, "" });
 }
 
 
-void SVGWriter::drawText(double a_x, double a_y, const std::string& a_text)
+void SVGWriter::drawText(double a_x, double a_y, const std::string& a_text, int a_fontSize)
 {
     const Coordinate c { a_x, a_y };
     updateMinMax(c);
 
-    m_commands.push_back(DrawCommand { CommandType::Text, c, c, 0, 0, a_text });
+    m_commands.push_back(DrawCommand { CommandType::Text, c, c, 0, a_fontSize, a_text });
 }
 
 
 std::string SVGWriter::getColorString(int a_color)
 {
+    a_color = a_color % 9;
     switch (a_color)
     {
         case 0:

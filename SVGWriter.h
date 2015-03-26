@@ -12,22 +12,34 @@
  * The class can be used to quickly create a 2D visualizatio,
  * e.g. for debugging purposes or analysis algorithm behavior.
  *
+ * The given coordinates are automatically scaled to the given target size.
  */
 class SVGWriter {
 
 public:
 
+    /**
+     * @brief Creates a writer object.
+     * @param a_filename Name of the file to be written.
+     * @param a_targetSize Defines the maximum width and height of the canvas.
+     * @param a_borderWidth Specifies the border size of the canvas.
+     */
     explicit SVGWriter(const std::string& a_filename,
                        int a_targetSize = 800,
                        int a_borderWidth = 10);
 
+    //! The results are written on destruction of the writer.
     ~SVGWriter();
 
-    void drawCircle(double a_x, double a_y, int a_color, int a_radius);
+    /**
+     * @brief Draws a circle with the given coordinates
+     * @param a_diameter Is given in absolute pixels (not scaled later).
+     */
+    void drawCircle(double a_x, double a_y, int a_colorIndex = 0, int a_diameter = 1);
 
-    void drawLine(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_color);
+    void drawLine(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex = 0);
 
-    void drawText(double a_fromX, double a_fromY, const std::string& a_text);
+    void drawText(double a_fromX, double a_fromY, const std::string& a_text, int a_fontSize = 12);
 
 
 private:
@@ -51,7 +63,7 @@ private:
         Coordinate m_fromCoord;
         Coordinate m_toCoord;
         int m_color;
-        int m_radius;
+        int m_size; // can be font size or diameter
         std::string m_text;
     };
 
