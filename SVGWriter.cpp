@@ -142,32 +142,21 @@ void SVGWriter::drawText(double a_x, double a_y, const std::string& a_text, int 
 }
 
 
-std::string SVGWriter::getColorString(int a_color)
+const std::string& SVGWriter::getColorString(int a_colorIndex)
 {
-    a_color = a_color % 9;
-    switch (a_color)
-    {
-        case 0:
-            return "black";
-        case 1:
-            return "yellowgreen";
-        case 2:
-            return "lightskyblue";
-        case 3:
-            return "hotpink";
-        case 4:
-            return "mediumpurple";
-        case 5:
-            return "goldenrod";
-        case 6:
-            return "slategrey";
-        case 7:
-            return "gold";
-        case 8:
-            return "red";
-        default:
-            return "darkcyan";
-    }
+    static const std::vector<std::string> colors = {
+        "white"
+        "black",
+        "yellowgreen",
+        "lightskyblue",
+        "hotpink",
+        "mediumpurple",
+        "goldenrod",
+        "gold",
+        "red",
+        "darkcyan"
+    };
+    return colors[a_colorIndex % colors.size()];
 }
 
 

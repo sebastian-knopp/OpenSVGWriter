@@ -102,7 +102,7 @@ private:
 
     void updateMinMax(const Coordinate& a_coord);
 
-    static std::string getColorString(int a_color);
+    static const std::string& getColorString(int a_colorIndex);
 
 
 private:
