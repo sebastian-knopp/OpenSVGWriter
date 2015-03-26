@@ -62,8 +62,10 @@ public:
      */
     void drawCircle(double a_x, double a_y, int a_colorIndex = 0, int a_diameter = 1);
 
+    //! Draws a line using the given coordinates
     void drawLine(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex = 0);
 
+    //! Draws a rectangle using the given coordinates
     void drawRectangle(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex = 0);
 
     void drawText(double a_fromX, double a_fromY, const std::string& a_text, int a_fontSize = 12);
