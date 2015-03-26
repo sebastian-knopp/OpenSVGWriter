@@ -38,7 +38,7 @@
  *        The result is a html file that can be viewed in a browser.
  *
  * The class can be used to quickly create a 2D visualizatio,
- * e.g. for debugging purposes or analysis algorithm behavior.
+ * e.g. for debugging purposes or analysis of algorithm behavior.
  *
  * The given coordinates are automatically scaled to the given target size.
  */
