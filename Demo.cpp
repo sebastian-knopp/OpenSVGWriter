@@ -20,8 +20,8 @@ int main()
 
     writer.drawText(115, 235, "Welcome to OpenSVGWriter", 18);
 
-    writer.drawRectangle(600, 400, 500, 300, 1);
-
+    // x-y Coordinates can be given in an arbitraty fashin (here: fromX > toX, fromY > toY)
+    writer.drawRectangle(1000, 625, 900, 525, 7);
 
     return 0;
 }
