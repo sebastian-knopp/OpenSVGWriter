@@ -19,6 +19,11 @@ SVGWriter::~SVGWriter()
 
     double scaleFactor = static_cast<double>(m_targetSize) / std::max(dblWidth, dblHeight);
 
+    auto getScaledValue = [scaleFactor, this] (const double a_value)
+    {
+        return static_cast<int>(scaleFactor * a_value);
+    };
+
     auto getScaledXValue = [scaleFactor, this] (const double a_value)
     {
         return static_cast<int>(scaleFactor * (a_value - m_min.m_x)) + m_borderWidth;
@@ -65,9 +70,18 @@ SVGWriter::~SVGWriter()
                   << "font-size=\"" << command.m_size << "\" "
                   << "font-family=\"arial\">" << command.m_text << "</text>\n";
             break;
+        case CommandType::Rectangle:
+            m_ofs << "<rect "
+                  << "x=\"" << getScaledXValue(command.m_fromCoord.m_x) << "\" "
+                  << "y=\"" << getScaledYValue(command.m_fromCoord.m_y) << "\" "
+                  << "width=\"" << getScaledValue(command.m_toCoord.m_x - command.m_fromCoord.m_x) << "\" "
+                  << "height=\"" << getScaledValue(command.m_toCoord.m_y - command.m_fromCoord.m_y) << "\" "
+                  << " style=\"fill:" << getColorString(command.m_color) << "; stroke-width:1\" />\n";
+            break;
         }
     }
 
+    //<rect width="300" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
     m_ofs << "</svg>\n"
           << "</body>\n"
           << "</html>\n";
@@ -92,6 +106,18 @@ void SVGWriter::drawLine(double a_fromX, double a_fromY, double a_toX, double a_
     updateMinMax(to);
 
     m_commands.push_back(DrawCommand { CommandType::Line, from, to, a_colorIndex, 0, "" });
+}
+
+
+void SVGWriter::drawRectangle(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex)
+{
+    const Coordinate from {  a_fromX, a_fromY };
+    updateMinMax(from);
+
+    const Coordinate to {  a_toX, a_toY };
+    updateMinMax(to);
+
+    m_commands.push_back(DrawCommand { CommandType::Rectangle, from, to, a_colorIndex, 0, "" });
 }
 
 

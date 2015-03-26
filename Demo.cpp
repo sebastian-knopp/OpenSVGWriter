@@ -14,10 +14,12 @@ int main()
     for (int i = 0; i < 20; ++i)
     {
         writer.drawCircle(50l * i, 100, i, 6);
-        writer.drawLine(50l * i, 300, 50l * i, 400, i);
+        writer.drawLine(50l * i, 300, 50l * i, 400, i+3);
+        writer.drawRectangle(50l * i - 10l, 450, 50l * i + 10l, 475, i + 5);
     }
 
     writer.drawText(115, 235, "Welcome to OpenSVGWriter", 18);
+
 
     return 0;
 }

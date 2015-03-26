@@ -39,6 +39,8 @@ public:
 
     void drawLine(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex = 0);
 
+    void drawRectangle(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex = 0);
+
     void drawText(double a_fromX, double a_fromY, const std::string& a_text, int a_fontSize = 12);
 
 
@@ -54,7 +56,8 @@ private:
     {
         Circle,
         Line,
-        Text
+        Text,
+        Rectangle
     };
 
     struct DrawCommand
