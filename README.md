@@ -1,5 +1,7 @@
 # OpenSVGWriter
-Provides a lightweight C++ class to write simplistic SVG files
+Provides a lightweight C++ class to write simplistic SVG files.
+Can be used to create a 2D visualizations quickly,
+e.g., for debugging purposes or to analyse algorithm behavior.
 
 
 # MIT LICENSE
