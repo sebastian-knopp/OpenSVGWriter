@@ -20,6 +20,8 @@ int main()
 
     writer.drawText(115, 235, "Welcome to OpenSVGWriter", 18);
 
+    writer.drawRectangle(600, 400, 500, 300, 1);
+
 
     return 0;
 }

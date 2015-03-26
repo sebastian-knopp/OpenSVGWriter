@@ -1,5 +1,7 @@
 #include "SVGWriter.h"
 #include <iostream>
+#include <algorithm>
+#include <tuple>
 
 
 SVGWriter::SVGWriter(const std::string& a_filename,
@@ -111,10 +113,13 @@ void SVGWriter::drawLine(double a_fromX, double a_fromY, double a_toX, double a_
 
 void SVGWriter::drawRectangle(double a_fromX, double a_fromY, double a_toX, double a_toY, int a_colorIndex)
 {
-    const Coordinate from {  a_fromX, a_fromY };
+    std::tie(a_fromX, a_toX) = std::make_tuple(std::min(a_fromX, a_toX), std::max(a_fromX, a_toX));
+    std::tie(a_fromY, a_toY) = std::make_tuple(std::min(a_fromY, a_toY), std::max(a_fromY, a_toY));
+
+    const Coordinate from { a_fromX, a_fromY };
     updateMinMax(from);
 
-    const Coordinate to {  a_toX, a_toY };
+    const Coordinate to { a_toX, a_toY };
     updateMinMax(to);
 
     m_commands.push_back(DrawCommand { CommandType::Rectangle, from, to, a_colorIndex, 0, "" });
